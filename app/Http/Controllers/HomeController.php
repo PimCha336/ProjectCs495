@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,15 +24,28 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if (Auth::user()->email == 'pimcha@gmail.com') {
+            return redirect('/admin');
+        } else {
+            return view('home');
+        }
     }
-     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function adminHome()
+
+    public function adminlogin()
     {
-        return view('adminHome');
+        if (Auth::user()->email != 'pimcha@gmail.com') {
+            return redirect('/home');
+        } else {
+            return view('admin');
+        }
+    }
+
+    public function admincreate()
+    {
+        if (Auth::user()->email != 'pimcha@gmail.com') {
+            return redirect('/home');
+        } else {
+            return view('create');
+        }
     }
 }
